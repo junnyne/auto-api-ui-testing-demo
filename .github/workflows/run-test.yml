@@ -14,11 +14,16 @@ jobs:
           repository: junnyne/auto-api-ui-testing
           token: ${{ secrets.GH_TOKEN }}
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
       - name: Install dependencies
         run: npm install
 
-      - name: Install Playwright
-        run: npx playwright install
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
       - name: Run test
         run: node run.js
