@@ -36,7 +36,7 @@ jobs:
           cd auto-api-ui-testing
           npx --yes playwright install --with-deps
 
-      - name: Run Playwright test (headless)
+      - name: Run Playwright test
         run: |
           cd auto-api-ui-testing
-          node run.js   # nhớ đã set headless: true trong run.js
+          node run.js  # nhớ đã set headless: true trong run.js
