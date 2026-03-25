@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # fix cảnh báo Node.js 20
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # fix Node.js 20 warning
 
 jobs:
   test:
@@ -45,4 +45,4 @@ jobs:
       - name: Run test
         run: |
           cd auto-api-ui-testing
-          node run.js
+          node run.js   # hoặc npm run test nếu repo có script
