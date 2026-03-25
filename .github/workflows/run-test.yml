@@ -3,16 +3,23 @@ name: Run Playwright Test
 on:
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+        
       - name: Checkout private repo
         uses: actions/checkout@v4
         with:
           repository: junnyne/auto-api-ui-testing
           token: ${{ secrets.GH_TOKEN }}
+          path: auto-api-ui-testing  
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -20,10 +27,16 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd auto-api-ui-testing
+          npm install
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: |
+          cd auto-api-ui-testing
+          npx playwright install --with-deps
 
       - name: Run test
-        run: node run.js
+        run: |
+          cd auto-api-ui-testing
+          node run.js 
