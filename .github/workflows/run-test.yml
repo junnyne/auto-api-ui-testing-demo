@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout current repo
+      - name: Checkout workflow repo
         uses: actions/checkout@v4
 
       - name: Checkout private repo
@@ -31,17 +31,12 @@ jobs:
           cd auto-api-ui-testing
           npm ci
 
-      - name: Fix permissions (if needed)
-        run: |
-          cd auto-api-ui-testing
-          chmod -R 755 node_modules/.bin
-
       - name: Install Playwright browsers
         run: |
           cd auto-api-ui-testing
           npx --yes playwright install --with-deps
 
-      - name: Run Playwright test
+      - name: Run Playwright test (headless)
         run: |
           cd auto-api-ui-testing
-          node run.js
+          node run.js   # nhớ đã set headless: true trong run.js
