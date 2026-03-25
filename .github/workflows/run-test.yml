@@ -4,45 +4,44 @@ on:
   workflow_dispatch:
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # fix Node.js 20 warning
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo workflow
       - name: Checkout current repo
         uses: actions/checkout@v4
 
-      # 2. Checkout repo private chứa code test
       - name: Checkout private repo
         uses: actions/checkout@v4
         with:
           repository: junnyne/auto-api-ui-testing
           token: ${{ secrets.GH_TOKEN }}
-          path: auto-api-ui-testing   # clone vào folder riêng
+          path: auto-api-ui-testing
 
-      # 3. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 4. Cài dependencies trong repo test
       - name: Install dependencies
         run: |
           cd auto-api-ui-testing
-          npm install
+          npm ci
 
-      # 5. Cài Playwright browsers
+      - name: Fix permissions (if needed)
+        run: |
+          cd auto-api-ui-testing
+          chmod -R 755 node_modules/.bin
+
       - name: Install Playwright browsers
         run: |
           cd auto-api-ui-testing
-          npx playwright install --with-deps
+          npx --yes playwright install --with-deps
 
-      # 6. Chạy Playwright test
       - name: Run Playwright test
         run: |
           cd auto-api-ui-testing
-          node run.js   # hoặc npm run test nếu repo có script
+          node run.js
