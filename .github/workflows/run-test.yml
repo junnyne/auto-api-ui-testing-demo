@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repo workflow (chỉ README.md)
+      # 1. Checkout repo workflow
       - name: Checkout current repo
         uses: actions/checkout@v4
 
-      # Checkout repo private chứa code test
+      # 2. Checkout repo private chứa code test
       - name: Checkout private repo
         uses: actions/checkout@v4
         with:
@@ -23,26 +23,26 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           path: auto-api-ui-testing   # clone vào folder riêng
 
-      # Setup Node.js
+      # 3. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # Cài dependencies
+      # 4. Cài dependencies trong repo test
       - name: Install dependencies
         run: |
           cd auto-api-ui-testing
           npm install
 
-      # Cài Playwright browsers
+      # 5. Cài Playwright browsers
       - name: Install Playwright browsers
         run: |
           cd auto-api-ui-testing
           npx playwright install --with-deps
 
-      # Chạy test
-      - name: Run test
+      # 6. Chạy Playwright test
+      - name: Run Playwright test
         run: |
           cd auto-api-ui-testing
           node run.js   # hoặc npm run test nếu repo có script
